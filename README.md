@@ -73,6 +73,7 @@ Java Intern @ Vault of Codes
 
 ## 📝 License
 
-This project is licensed under the MIT LICENCE (https://github.com/shalu142/Resume-Maker-App/blob/main/LICENSE).
+This project is licensed under the [MIT License](LICENSE).
+
 
 
