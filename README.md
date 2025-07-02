@@ -73,6 +73,6 @@ Java Intern @ Vault of Codes
 
 ## 📝 License
 
-This project is licensed under the MIT .
+This project is licensed under the MIT LICENCE.
 
 
