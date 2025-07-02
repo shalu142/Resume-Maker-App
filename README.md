@@ -22,6 +22,7 @@ The **Resume Maker App** is a powerful JavaFX desktop application designed to he
 ## 📂 Project Structure
 
 Final Project/
+
 ├── .vscode/ # VSCode project settings
 
 ├── Lib/ # External libraries (Gson, iTextPDF)
@@ -47,11 +48,13 @@ https://gluonhq.com/products/javafx/
 
 Extract and place in a known location 
 
+
 Run the app
 
 Press F5 in VS Code
 
 Or use java ResumeMakerApp with appropriate classpath
+
 
 🖋️ Fonts
 If using DejaVu Sans for PDF export:
@@ -60,7 +63,10 @@ Add DejaVuSans.ttf to Resources/fonts/
 
 Load in Java:  BaseFont bf = BaseFont.createFont("Resources/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
+
 👨‍💻 Developer Info
+
 Developed by Shalu Baloda
+
 Java Intern @ Vault of Codes
 
