@@ -70,3 +70,9 @@ Developed by Shalu Baloda
 
 Java Intern @ Vault of Codes
 
+
+## 📝 License
+
+This project is licensed under the MIT .
+
+
