@@ -1,4 +1,4 @@
-# resume-maker-web
+# resume-maker-App
 The **Resume Maker App** is a powerful JavaFX desktop application designed to help users create professional, stylish, and customizable resumes quickly and easily. This project was developed as part of an internship at **Vault of Codes** and demonstrates skills in Java GUI development, file handling, JSON, PDF export, and UI/UX design.
 
 
