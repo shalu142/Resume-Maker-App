@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch ResumeMakerApp",
+      "request": "launch",
+      "mainClass": "ResumeMakerApp",
+      "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-24.0.1/lib\" --add-modules javafx.controls,javafx.fxml",
+      "classPaths": [
+        "C:/Program Files/Java/gson-2.10.1.jar",
+        "C:/Program Files/Java/itextpdf-5.5.13.3.jar"
+      ]
+    }
+  ]
+}
