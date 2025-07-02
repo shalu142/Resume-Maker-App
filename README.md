@@ -23,14 +23,23 @@ The **Resume Maker App** is a powerful JavaFX desktop application designed to he
 
 Final Project/
 ├── .vscode/ # VSCode project settings
+
 ├── Lib/ # External libraries (Gson, iTextPDF)
+
 ├── Resources/ # Fonts, images, icons
+
 │ └── fonts/ # Custom fonts (e.g., DejaVu)
-├── javafx-sdk-24.0.1/ # JavaFX SDK 
+
+├── javafx-sdk-24.0.1/ # JavaFX SDK
+
 ├── ResumeMakerApp.java # Main JavaFX class
+
 ├── ResumeData.java # Data model for resume content
-├── *.class # Compiled files 
+
+├── *.class # Compiled files
+
 └── Resume Maker.exe # Exported .exe
+
 
 Download JavaFX SDK 24.0.1
 
