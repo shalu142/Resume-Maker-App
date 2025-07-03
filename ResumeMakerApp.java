@@ -2,6 +2,7 @@
 // Step 1: Field Entry -> Step 2: Styling Options -> Step 3: Template Selection -> Export to PDF (with profile photo support and stylish layout)
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -46,6 +47,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class ResumeMakerApp extends Application {
+    private ScrollPane scrollPane;           // for the form pane
+    private ScrollPane previewScrollPane; 
     private TextArea objectiveArea;
     private VBox educationBox = new VBox(5);
     private VBox skillsBox = new VBox(5);
@@ -80,15 +83,10 @@ public void start(Stage primaryStage) {
 
     setupFormPane(); // Sets up the VBox with all form fields
 
-    ScrollPane scrollPane = new ScrollPane();
-    scrollPane.setContent(formPane);
-    scrollPane.setFitToWidth(true); // Make formPane match scrollPane width
+    scrollPane = new ScrollPane(formPane);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     scrollPane.setPadding(new Insets(10));
-
-    // Optional: Set preferred height on formPane if not already set
-    formPane.setPrefHeight(1200); // ensure content is tall enough to scroll
 
     rootStack.getChildren().add(scrollPane);
 
@@ -398,7 +396,7 @@ public void start(Stage primaryStage) {
         italicCheck = new CheckBox("Italic");
 
         Button backToForm = new Button("Back");
-        backToForm.setOnAction(e -> rootStack.getChildren().setAll(formPane));
+        backToForm.setOnAction(e -> rootStack.getChildren().setAll(scrollPane));
 
         Button nextToTemplate = new Button("Next");
         nextToTemplate.setOnAction(e -> {
@@ -416,6 +414,13 @@ public void start(Stage primaryStage) {
             boldCheck, italicCheck,
             navButtons
         );
+        ScrollPane stylingScrollPane = new ScrollPane(stylingPane);
+        stylingScrollPane.setFitToWidth(true);
+        stylingScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        stylingScrollPane.setPadding(new Insets(10));
+
+        // ✅ Add scrollable styling pane to rootStack
+        rootStack.getChildren().setAll(stylingScrollPane);
     }
 
     private VBox createDynamicSection(String label, VBox container) {
@@ -463,6 +468,8 @@ public void start(Stage primaryStage) {
 
                     container.getChildren().add(row);
                 }
+                formPane.requestLayout(); // Ensure layout refresh
+                Platform.runLater(() -> scrollPane.setVvalue(1.0));
 
         });
 
@@ -488,9 +495,25 @@ public void start(Stage primaryStage) {
 
         // Preview box
         previewBox = new VBox(5);
+        
         previewBox.setPadding(new Insets(10));
         previewBox.setStyle("-fx-border-color: gray; -fx-border-width: 1; -fx-background-color: #f9f9f9;");
+        previewBox.setMinHeight(Region.USE_COMPUTED_SIZE);
+        previewBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        previewBox.setMaxHeight(Double.MAX_VALUE);
+        previewBox.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(previewBox, Priority.ALWAYS); 
         updatePreview();
+
+        previewScrollPane = new ScrollPane(previewBox);
+        previewScrollPane.setFitToWidth(true);
+        previewScrollPane.setFitToHeight(false); // let it scroll vertically
+        previewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        previewScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        previewScrollPane.setPadding(new Insets(10));
+        previewScrollPane.setMaxHeight(Double.MAX_VALUE);
+        previewScrollPane.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(previewScrollPane, Priority.ALWAYS);
 
         // Navigation buttons
         Button backToStyle = new Button("Back");
@@ -510,10 +533,26 @@ public void start(Stage primaryStage) {
 
         // Assemble layout
         templateLayout.setLeft(selectorBox);
-        templateLayout.setCenter(previewBox);
+        templateLayout.setCenter(previewScrollPane);
         templateLayout.setBottom(navButtons);
 
-        templatePane = new VBox(templateLayout);
+        VBox container = new VBox();
+        container.setPadding(new Insets(10));
+        container.setSpacing(10);
+        VBox.setVgrow(templateLayout, Priority.ALWAYS);
+        VBox.setVgrow(container, Priority.ALWAYS); 
+        container.setMaxHeight(Double.MAX_VALUE);
+        container.setMaxWidth(Double.MAX_VALUE);
+        container.getChildren().add(templateLayout);
+
+        ScrollPane fullTemplateScroll = new ScrollPane(container);
+        fullTemplateScroll.setFitToWidth(true);
+        fullTemplateScroll.setFitToHeight(false); // Important!
+        fullTemplateScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        fullTemplateScroll.setPadding(new Insets(10));
+
+        rootStack.getChildren().setAll(fullTemplateScroll);
+        Platform.runLater(() -> fullTemplateScroll.setVvalue(1.0));
     }
 
     private void exportToStylishPDF() {
@@ -713,6 +752,7 @@ public void start(Stage primaryStage) {
             });
 
             formPane.getChildren().add(formPane.getChildren().size() - 1, fieldRow);
+            Platform.runLater(() -> scrollPane.setVvalue(1.0));
         } else {
             showAlert("Warning", "Field already exists.");
         }
@@ -843,6 +883,7 @@ public void start(Stage primaryStage) {
         }
 
         previewBox.getChildren().add(new Separator());
+        
     };
 
     bulletSection.accept("Skills", skillsBox);
@@ -863,9 +904,11 @@ public void start(Stage primaryStage) {
                 customValue.setStyle(sectionStyle + "; -fx-text-fill: " + textColor + ";");
 
                 previewBox.getChildren().addAll(customHeading, customValue, new Separator());
+
             }
         }
     }
+    Platform.runLater(() -> previewScrollPane.setVvalue(1.0));
 }
 
 
